@@ -14,7 +14,7 @@ export const NavBar = () => {
           Home
         </NavLink>
 
-        <NavLink to="/movies/:movieId" className={buildLinkClass}>
+        <NavLink to="/movies" className={buildLinkClass}>
           Movies
         </NavLink>
       </nav>

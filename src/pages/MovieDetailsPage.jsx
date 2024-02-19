@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getFilmsById } from "../api";
+import MovieDetails from "../components/MovieDetails";
 
 export default function MoviesDetailsPage() {
+  const location = useLocation();
+
   const { movieId } = useParams();
   const [film, setFilm] = useState(null);
 
@@ -10,8 +13,7 @@ export default function MoviesDetailsPage() {
     async function fetchData() {
       try {
         const fetchedFilm = await getFilmsById(movieId);
-        setFilm(fetchedFilm.results);
-        console.log(movieId);
+        setFilm(fetchedFilm);
       } catch (error) {
         console.log("ERROR !!!!");
       }
@@ -21,15 +23,8 @@ export default function MoviesDetailsPage() {
 
   return (
     <div>
-      <Link to="/">Back to Home page</Link>
-      <h1>MovieDetailsPage - {movieId}</h1>
-      {film && (
-        <div>
-          <p> Name: {film[0].title}</p>
-          <p> Year: {film[0].release_date}</p>
-          <p> Genres: {film[0].genre_ids}</p>
-        </div>
-      )}
+      <Link to={location.state ?? `/movies`}>Go back to search</Link>
+      {film && <MovieDetails film={film} />}
     </div>
   );
 }
