@@ -1,3 +1,6 @@
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { useEffect, useState } from "react";
 import { getFilms } from "../api";
 import { FilmList } from "../components/FilmList";
@@ -30,6 +33,15 @@ export default function HomePage() {
     };
   }, []);
 
+  const options = {
+    autoClose: 3000,
+    hideProgressBar: false,
+    position: "top-right",
+    pauseOnHover: true,
+    progress: 0.2,
+    delay: 1000,
+  };
+
   return (
     <div>
       <NavBar />
@@ -37,7 +49,7 @@ export default function HomePage() {
       <h1>Trending today</h1>
 
       {films.length > 0 && <FilmList films={films} />}
-      {error && <p>OOOOPS! ERROR!</p>}
+      {error && toast.error(`ERROR! Bad request! Reload page please`, options)}
     </div>
   );
 }

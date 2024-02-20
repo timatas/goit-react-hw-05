@@ -1,29 +1,19 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { Search } from "../components/Search";
-import { getFilms, getFilmsByQuery } from "../api";
+import { getFilmsByQuery } from "../api";
 import { useEffect, useState } from "react";
 import { FilmList } from "../components/FilmList";
 import { toast } from "react-toastify";
+import { NavBar } from "../components/NavBar";
 
 export default function MoviesPage() {
   const [films, setFilms] = useState([]);
   const [params, setParams] = useSearchParams();
-  //const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [error, setError] = useState(false);
+  const location = useLocation();
 
   const query = params.get("search") ?? "";
-
-  // const QuerySearch = async (newQuery) => {
-  //   setQuery(`${newQuery}`);
-  //   setPage(1);
-  //   setFilms([]);
-  // };
-
-  // const changeQuery = (newQuery) => {
-  //   params.set("search", newQuery);
-  //   setParams(params);
-  // };
 
   const QuerySearch = async (newQuery) => {
     params.set("search", newQuery);
@@ -66,10 +56,20 @@ export default function MoviesPage() {
     };
   }, [query, page]);
 
+  const options = {
+    autoClose: 3000,
+    hideProgressBar: false,
+    position: "top-right",
+    pauseOnHover: true,
+    progress: 0.2,
+    delay: 1000,
+  };
+
   return (
     <div>
-      <Link to="/">Go back</Link>
-      {error && <p>OOOOPS! ERROR!</p>}
+      <NavBar />
+
+      {error && toast.error(`ERROR! Bad request! Reload page please`, options)}
       <h1>Page for search</h1>
 
       <Search onSearch={QuerySearch} />
