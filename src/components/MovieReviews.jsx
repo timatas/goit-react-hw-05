@@ -22,7 +22,6 @@ export default function MovieReviews() {
         const fetchedFilm = await getMovieReviews(movieId);
 
         setFilm(fetchedFilm);
-        console.log(film);
       } catch (error) {
         toast.error(`Enter query please`, options);
       }

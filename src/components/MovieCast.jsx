@@ -22,7 +22,6 @@ export default function MovieCast() {
         const fetchedFilm = await getMovieCast(movieId);
 
         setFilm(fetchedFilm);
-        console.log(film);
       } catch (error) {
         toast.error(`Enter query please`, options);
       }
