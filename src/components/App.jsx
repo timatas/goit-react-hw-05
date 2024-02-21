@@ -1,14 +1,8 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { Navigation } from "../components/Navigation";
 import css from "./App.module.css";
-
-//import HomePage from "../pages/HomePage";
-//import MoviesPage from "../pages/MoviesPage";
-//import MovieDetailsPage from "../pages/MovieDetailsPage";
-//import NotFound from "../pages/NotFound";
-//import Cast from "../components/Cast";
-//import Reviews from "../components/Reviews";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const MovieDetailsPage = lazy(() => import("../pages/MovieDetailsPage"));
@@ -20,6 +14,8 @@ const MovieReviews = lazy(() => import("../components/MovieReviews"));
 export const App = () => {
   return (
     <div>
+      <Navigation />
+
       <Suspense fallback={<b>Loading page...</b>}>
         <Routes>
           <Route path="/" element={<HomePage />} />

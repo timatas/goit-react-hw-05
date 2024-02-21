@@ -4,7 +4,6 @@ import { getFilmsByQuery } from "../api";
 import { useEffect, useState } from "react";
 import { FilmList } from "../components/FilmList";
 import { toast } from "react-toastify";
-import { NavBar } from "../components/NavBar";
 
 export default function MoviesPage() {
   const [films, setFilms] = useState([]);
@@ -67,8 +66,6 @@ export default function MoviesPage() {
 
   return (
     <div>
-      <NavBar />
-
       {error && toast.error(`ERROR! Bad request! Reload page please`, options)}
       <h1>Page for search</h1>
 
