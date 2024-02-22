@@ -1,0 +1,22 @@
+.wrapper {
+}
+
+ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  padding: 40px 10px;
+  background-color: #ffffff24;
+  border-radius: 10px;
+}
+.list {
+}
+
+.item {
+}
+
+.actorNameText {
+}
+.image {
+}

@@ -14,14 +14,15 @@ import axios from "axios";
 export const getFilms = async ({ abortController }) => {
   axios.defaults.baseURL = "https://api.themoviedb.org/3/movie";
   const options = {
-    signal: abortController.signal,
     headers: {
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZmQzZWIzYTU4YTk1YWQ4ZjgyZTI5NzkxOWI1MDZmOCIsInN1YiI6IjY1Y2ExZGUxMDgzNTQ3MDE4NGNmYjdmMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ImWrN7O7fP8of15ZCCMUKkIho0ndr_iElcD-v4eQ5AA",
     },
   };
 
-  const response = await axios.get("/top_rated?", options);
+  const response = await axios.get("/top_rated?", options, {
+    signal: abortController.signal,
+  });
 
   return response.data;
 };
@@ -42,14 +43,15 @@ export const getFilmsById = async (movieId) => {
 export const getFilmsByQuery = async ({ abortController }, query) => {
   axios.defaults.baseURL = "https://api.themoviedb.org/3/search";
   const options = {
-    signal: abortController.signal,
     headers: {
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZmQzZWIzYTU4YTk1YWQ4ZjgyZTI5NzkxOWI1MDZmOCIsInN1YiI6IjY1Y2ExZGUxMDgzNTQ3MDE4NGNmYjdmMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ImWrN7O7fP8of15ZCCMUKkIho0ndr_iElcD-v4eQ5AA",
     },
   };
 
-  const response = await axios.get(`movie?query=${query}&page=1`, options);
+  const response = await axios.get(`movie?query=${query}&page=1`, options, {
+    signal: abortController.signal,
+  });
   return response.data;
 };
 

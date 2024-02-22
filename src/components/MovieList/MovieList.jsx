@@ -1,15 +1,15 @@
 import { NavLink, useLocation } from "react-router-dom";
 import clsx from "clsx";
-import css from "../components/FilmList.module.css";
+import css from "../MovieList/MovieList.module.css";
 
 const buildLinkClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
 };
 
-export const FilmList = ({ films }) => {
+export const MovieList = ({ films }) => {
   const location = useLocation();
   return (
-    <ul>
+    <ul className={css.list}>
       {films.map((film) => (
         <li key={film.id}>
           <NavLink

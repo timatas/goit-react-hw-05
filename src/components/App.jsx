@@ -1,15 +1,16 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Navigation } from "../components/Navigation";
-import css from "./App.module.css";
+import { Navigation } from "../components/Navigation/Navigation";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const MovieDetailsPage = lazy(() => import("../pages/MovieDetailsPage"));
 const MoviesPage = lazy(() => import("../pages/MoviesPage"));
 const NotFound = lazy(() => import("../pages/NotFound"));
-const MovieCast = lazy(() => import("../components/MovieCast"));
-const MovieReviews = lazy(() => import("../components/MovieReviews"));
+const MovieCast = lazy(() => import("../components/MovieCast/MovieCast"));
+const MovieReviews = lazy(() =>
+  import("../components/MovieReviews/MovieReviews")
+);
 
 export const App = () => {
   return (
@@ -26,7 +27,7 @@ export const App = () => {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
-        <ToastContainer />
+        <ToastContainer position="top-center" />
       </Suspense>
     </div>
   );

@@ -3,50 +3,39 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { useEffect, useState } from "react";
 import { getFilms } from "../api";
-import { FilmList } from "../components/FilmList";
+import { MovieList } from "../components/MovieList/MovieList";
+import { Loader } from "../components/Loader/Loader";
 
 export default function HomePage() {
   const [films, setFilms] = useState([]);
-  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
     async function fetchData() {
       try {
+        setIsLoading(true);
         const fetchedFilms = await getFilms({
           abortController: controller,
         });
         setFilms(fetchedFilms.results);
-      } catch (error) {
-        if (error.code !== "ERR_CANCELED") {
-          setError(true);
-        }
+      } catch {
+        toast.error(`ERROR! Bad request! Reload page please!`);
+      } finally {
+        setIsLoading(false);
       }
     }
 
     fetchData();
-
-    return () => {
-      controller.abort();
-    };
+    return () => controller.abort();
   }, []);
-
-  const options = {
-    autoClose: 3000,
-    hideProgressBar: false,
-    position: "top-right",
-    pauseOnHover: true,
-    progress: 0.2,
-    delay: 1000,
-  };
 
   return (
     <div>
       <h1>Trending today</h1>
 
-      {films.length > 0 && <FilmList films={films} />}
-      {error && toast.error(`ERROR! Bad request! Reload page please`, options)}
+      {isLoading ? <Loader /> : <MovieList films={films} />}
     </div>
   );
 }

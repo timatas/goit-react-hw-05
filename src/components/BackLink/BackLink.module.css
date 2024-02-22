@@ -1,0 +1,13 @@
+.btnLink {
+  display: inline-flex;
+  padding: 5px 10px;
+  border: 1px #000 solid;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.btnLink:hover {
+  color: #fff;
+  background-color: #6e6d6d;
+}

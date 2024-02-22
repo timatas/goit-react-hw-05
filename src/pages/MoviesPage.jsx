@@ -1,77 +1,63 @@
-import { useSearchParams, useLocation } from "react-router-dom";
-import { Search } from "../components/Search";
+import { useSearchParams } from "react-router-dom";
+import { Search } from "../components/Search/Search";
 import { getFilmsByQuery } from "../api";
 import { useEffect, useState } from "react";
-import { FilmList } from "../components/FilmList";
+import { MovieList } from "../components/MovieList/MovieList";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Loader } from "../components/Loader/Loader";
 
 export default function MoviesPage() {
   const [films, setFilms] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [params, setParams] = useSearchParams();
-  const [page, setPage] = useState(1);
-  const [error, setError] = useState(false);
-  const location = useLocation();
 
   const query = params.get("search") ?? "";
 
-  const QuerySearch = async (newQuery) => {
-    params.set("search", newQuery);
+  const movieSearch = async (newSearch) => {
+    params.set("search", newSearch);
     setParams(params);
-    setPage(1);
-    setFilms([]);
   };
 
   useEffect(() => {
     const controller = new AbortController();
-    if (query === "") {
-      return;
-    }
+
     async function fetchData() {
       try {
+        setIsLoading(true);
         const fetchedFilms = await getFilmsByQuery(
           {
             abortController: controller,
           },
-          query,
-          page
+          query
         );
-
-        if (fetchedFilms.results.length === 0) {
-          toast.error(`There is nothing for your request! Try again`);
-          return;
-        }
-
         setFilms(fetchedFilms.results);
-      } catch (error) {
-        if (error.code !== "ERR_CANCELED") {
-          setError(true);
-        }
+      } catch {
+        toast.error(`ERROR! Bad request! Reload page please!`);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchData();
-
-    return () => {
-      controller.abort();
-    };
-  }, [query, page]);
-
-  const options = {
-    autoClose: 3000,
-    hideProgressBar: false,
-    position: "top-right",
-    pauseOnHover: true,
-    progress: 0.2,
-    delay: 1000,
-  };
+    return () => controller.abort();
+  }, [query]);
 
   return (
     <div>
-      {error && toast.error(`ERROR! Bad request! Reload page please`, options)}
       <h1>Page for search</h1>
-
-      <Search onSearch={QuerySearch} />
-
-      {films.length > 0 && <FilmList films={films} />}
+      {isLoading ? (
+        <Loader />
+      ) : films.length === 0 && query ? (
+        <div>
+          <Search onSubmit={movieSearch} />
+          <h2>Nothing found for this query</h2>
+        </div>
+      ) : (
+        <div>
+          <Search onSubmit={movieSearch} />
+          <MovieList films={films} />
+        </div>
+      )}
     </div>
   );
 }

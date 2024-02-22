@@ -15,3 +15,7 @@
 .active {
   color: orange;
 }
+
+.list {
+  display: block;
+}
